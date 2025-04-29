@@ -9,8 +9,11 @@ import SearchSortBar from "@/components/listings/SearchSortBar";
 import ListingsGrid from "@/components/listings/ListingsGrid";
 import ListingsPagination from "@/components/listings/ListingsPagination";
 import { useListings } from "@/hooks/useListings";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 const Listings = () => {
+  
   const {
     searchTerm,
     setSearchTerm,
@@ -25,6 +28,10 @@ const Listings = () => {
     toggleAmenity,
     selectedLocation,
     setSelectedLocation,
+    checkInDate,
+    setCheckInDate,
+    checkOutDate,
+    setCheckOutDate,
     locations,
     filteredListings,
     paginatedListings,
@@ -34,6 +41,16 @@ const Listings = () => {
     handleResetFilters,
     handlePageChange
   } = useListings();
+
+  const { toast } = useToast();
+  
+  // Show a toast when component mounts to help users understand how to use the page
+  // useEffect(() => {
+  //   toast({
+  //     title: "Welcome to Cabin Listings",
+  //     description: "Use filters to find your perfect cabin getaway!",
+  //   });
+  // }, []);
   
   return (
     <PageTransition>
@@ -55,6 +72,10 @@ const Listings = () => {
                 selectedLocation={selectedLocation}
                 setSelectedLocation={setSelectedLocation}
                 locations={locations}
+                checkInDate={checkInDate}
+                setCheckInDate={setCheckInDate}
+                checkOutDate={checkOutDate}
+                setCheckOutDate={setCheckOutDate}
                 handleApplyFilters={handleApplyFilters}
                 handleResetFilters={handleResetFilters}
               />
@@ -68,6 +89,7 @@ const Listings = () => {
                   sortOption={sortOption}
                   setSortOption={setSortOption}
                   setIsFiltersOpen={setIsFiltersOpen}
+                  handleApplyFilters={handleApplyFilters}
                 />
                 
                 {/* Results count */}

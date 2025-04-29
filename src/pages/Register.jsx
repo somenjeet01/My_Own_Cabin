@@ -1,13 +1,13 @@
-import React, { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useToast } from "@/hooks/use-toast"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import PageTransition from "@/components/PageTransition"
-import { Button } from "@/components/ui/button"
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,19 +15,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Spinner } from "@/components/ui/spinner"
-import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, UserPlus, Mail, Lock, User } from "lucide-react"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ArrowLeft, UserPlus, Mail, Lock, User } from "lucide-react";
+
+import authService from "@/appwrite/auth"; // Import your authService
 
 const registerSchema = z
   .object({
     name: z.string().min(2, { message: "Name must be at least 2 characters" }),
     email: z.string().email({ message: "Please enter a valid email address" }),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
+    password: z.string().min(6, { message: "Password must be at least 6 characters" }),
     confirmPassword: z.string(),
     terms: z.boolean().refine(val => val === true, {
       message: "You must agree to the terms and conditions"
@@ -36,12 +36,12 @@ const registerSchema = z
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"]
-  })
+  });
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -52,21 +52,46 @@ const Register = () => {
       confirmPassword: "",
       terms: false
     }
-  })
+  });
 
-  const onSubmit = data => {
-    setIsLoading(true)
+  const onSubmit = async (data) => {
+    setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Call authService to create account
+      const userAccount = await authService.createAccount({
+        name: data.name,
+        email: data.email,
+        password: data.password
+      });
+
+      if (userAccount) {
+        const user = await authService.getCurrentUser();
+        console.log("Registered and logged in user:", user);
+
+        // Save login manually
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("user", JSON.stringify(user));
+
+        toast({
+          title: "Registration successful",
+          description: `Welcome aboard, ${user.name || "User"}!`
+        });
+
+        navigate("/listings");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+
       toast({
-        title: "Registration successful",
-        description: "Your account has been created. You can now log in."
-      })
-      navigate("/login")
-      setIsLoading(false)
-    }, 1500)
-  }
+        title: "Registration failed",
+        description: error?.message || "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <PageTransition>
@@ -249,7 +274,7 @@ const Register = () => {
         <Footer />
       </div>
     </PageTransition>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
