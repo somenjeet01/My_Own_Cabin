@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, Calendar } from "lucide-react";
-import DateRangePicker from "@/components/dateRangePicker";
+import DateRangePicker from "@/components/DateRangePicker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const SearchSortBar = ({
