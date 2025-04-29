@@ -17,9 +17,13 @@ import {
   Dog,
   Bath
 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
-// Amenities data for filter
-const amenitiesData = [
+// Predefined list of amenities with their corresponding icons and identifiers
+export const amenitiesData = [
   { id: "amenity-wifi", name: "Wifi", icon: "Wifi" },
   { id: "amenity-fireplace", name: "Fireplace", icon: "FlameKindling" },
   { id: "amenity-heating", name: "Heating", icon: "Snowflake" },
@@ -38,11 +42,17 @@ const FiltersPanel = ({
   selectedLocation,
   setSelectedLocation,
   locations,
+  checkInDate,
+  setCheckInDate,
+  checkOutDate,
+  setCheckOutDate,
   handleApplyFilters,
   handleResetFilters
 }) => {
-  // Get the proper icon component based on the icon name
+  // Utility function to dynamically render icons based on icon name
+  // Maps icon names to their corresponding Lucide React components
   const getIconComponent = (iconName) => {
+    // Object mapping icon names to their Lucide React components
     const icons = {
       Wifi,
       FlameKindling,
@@ -51,13 +61,17 @@ const FiltersPanel = ({
       Dog,
       Bath
     };
+    
+    // Safely retrieve the icon component, return null if not found
     const IconComponent = icons[iconName];
     return IconComponent ? <IconComponent size={14} className="mr-1" /> : null;
   };
 
   return (
+    // Responsive container for filters panel with mobile and desktop layouts
     <div className={`lg:w-1/4 ${isFiltersOpen ? 'fixed inset-0 z-50 bg-white overflow-y-auto p-4 lg:static lg:block lg:p-0 lg:bg-transparent' : 'hidden lg:block'}`}>
       <Card className="p-4 sticky top-4">
+        {/* Filters panel header with title and close button */}
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-semibold text-lg flex items-center">
             <Filter size={18} className="mr-2" /> Filters
@@ -73,7 +87,7 @@ const FiltersPanel = ({
         </div>
         
         <div className="space-y-6">
-          {/* Location filter */}
+          {/* Location filter with dropdown selection */}
           <div>
             <h4 className="font-medium mb-2 flex items-center">
               <MapPin size={16} className="mr-2" /> Location
@@ -92,26 +106,71 @@ const FiltersPanel = ({
             </select>
           </div>
           
-          {/* Date filter */}
+          {/* Date range filter with check-in and check-out inputs */}
           <div>
             <h4 className="font-medium mb-2 flex items-center">
               <CalendarDays size={16} className="mr-2" /> Dates
             </h4>
             <div className="grid grid-cols-2 gap-2">
-              <Input 
-                type="date"
-                placeholder="Check-in" 
-                className="border-cabin-200"
-              />
-              <Input 
-                type="date"
-                placeholder="Check-out" 
-                className="border-cabin-200"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !checkInDate && "text-muted-foreground"
+                    )}
+                  >
+                    {checkInDate ? format(checkInDate, "MMM d, yyyy") : "Check-in date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={checkInDate}
+                    onSelect={setCheckInDate}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                    disabled={(date) => {
+                      return date < new Date(new Date().setHours(0, 0, 0, 0));
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !checkOutDate && "text-muted-foreground"
+                    )}
+                  >
+                    {checkOutDate ? format(checkOutDate, "MMM d, yyyy") : "Check-out date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={checkOutDate}
+                    onSelect={setCheckOutDate}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                    disabled={(date) => {
+                      // Disable dates before check-in date or current date
+                      const today = new Date(new Date().setHours(0, 0, 0, 0));
+                      return date < today || (checkInDate ? date <= checkInDate : false);
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
           
-          {/* Price range filter */}
+          {/* Price range filter with slider and min/max indicators */}
           <div>
             <div className="flex justify-between mb-2">
               <h4 className="font-medium flex items-center">
@@ -136,7 +195,7 @@ const FiltersPanel = ({
             </div>
           </div>
           
-          {/* Amenities filter */}
+          {/* Amenities filter with checkboxes and dynamic icons */}
           <div>
             <h4 className="font-medium mb-3">Amenities</h4>
             <div className="space-y-2">
@@ -155,6 +214,7 @@ const FiltersPanel = ({
             </div>
           </div>
           
+          {/* Buttons to apply or reset filters */}
           <div className="flex gap-2">
             <Button 
               className="flex-1 bg-cabin-600 hover:bg-cabin-700 text-white"

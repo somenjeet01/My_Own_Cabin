@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import { useParams } from "react-router-dom"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   MapPin,
   Star,
@@ -23,15 +23,14 @@ import {
   Car,
   Utensils,
   Tv,
-  Heart
-} from "lucide-react"
+  Heart,
+} from "lucide-react";
 
 const ListingDetail = () => {
-  const { id } = useParams()
-  const [activeImage, setActiveImage] = useState(0)
-  const [isHeartActive, setIsHeartActive] = useState(false)
+  const { id } = useParams();
+  const [activeImage, setActiveImage] = useState(0);
+  const [isHeartActive, setIsHeartActive] = useState(false);
 
-  // Mock data for a specific listing
   const listing = {
     id: id || "1",
     title: "Rustic Pine Retreat",
@@ -48,7 +47,7 @@ const ListingDetail = () => {
       name: "John Smith",
       joined: "2019",
       avatar: "https://i.pravatar.cc/150?img=13",
-      responseRate: 99
+      responseRate: 99,
     },
     amenities: [
       { name: "Wifi", icon: Wifi },
@@ -59,54 +58,51 @@ const ListingDetail = () => {
       { name: "Hot Tub", icon: Bath },
       { name: "Parking", icon: Car },
       { name: "Kitchen", icon: Utensils },
-      { name: "TV", icon: Tv }
+      { name: "TV", icon: Tv },
     ],
     images: [
-      "https://images.unsplash.com/photo-1615571022219-eb45cf7faa9d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      "https://images.unsplash.com/photo-1472831818955-3b659a9c47e7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80",
-      "https://images.unsplash.com/photo-1586744627062-45ddb3a6b8be?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-      "https://images.unsplash.com/photo-1606823616058-541d53078058?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+      "https://images.unsplash.com/photo-1615571022219-eb45cf7faa9d?auto=format&fit=crop&w=1470&q=80",
+      "https://images.unsplash.com/photo-1472831818955-3b659a9c47e7?auto=format&fit=crop&w=1032&q=80",
+      "https://images.unsplash.com/photo-1586744627062-45ddb3a6b8be?auto=format&fit=crop&w=1160&q=80",
+      "https://images.unsplash.com/photo-1606823616058-541d53078058?auto=format&fit=crop&w=1470&q=80",
     ],
     reviews: [
       {
         id: "1",
         user: {
           name: "Sarah Thompson",
-          avatar: "https://i.pravatar.cc/150?img=1"
+          avatar: "https://i.pravatar.cc/150?img=1",
         },
         date: "August 2023",
         rating: 5,
-        text:
-          "This cabin was absolutely perfect! The location is stunning, with beautiful views of the forest. Inside was clean, cozy and had everything we needed. The fireplace was a wonderful touch for cool evenings. We'll definitely be back!"
+        text: "This cabin was absolutely perfect! The location is stunning, with beautiful views of the forest. Inside was clean, cozy and had everything we needed. The fireplace was a wonderful touch for cool evenings. We'll definitely be back!",
       },
       {
         id: "2",
         user: {
           name: "Michael Chen",
-          avatar: "https://i.pravatar.cc/150?img=8"
+          avatar: "https://i.pravatar.cc/150?img=8",
         },
         date: "July 2023",
         rating: 5,
-        text:
-          "We had a fantastic weekend at this cabin. The hot tub under the stars was magical, and the kitchen was well-equipped for cooking. The host was responsive and helpful with local recommendations. Already planning our next visit!"
+        text: "We had a fantastic weekend at this cabin. The hot tub under the stars was magical, and the kitchen was well-equipped for cooking. The host was responsive and helpful with local recommendations. Already planning our next visit!",
       },
       {
         id: "3",
         user: {
           name: "Emily Johnson",
-          avatar: "https://i.pravatar.cc/150?img=5"
+          avatar: "https://i.pravatar.cc/150?img=5",
         },
         date: "June 2023",
         rating: 4,
-        text:
-          "Lovely cabin in a beautiful setting. Very comfortable and clean. The only reason for 4 stars instead of 5 is that the wifi was a bit spotty, but that's to be expected in a remote location. Would definitely recommend for a peaceful getaway."
-      }
-    ]
-  }
+        text: "Lovely cabin in a beautiful setting. Very comfortable and clean. The only reason for 4 stars instead of 5 is that the wifi was a bit spotty, but that's to be expected in a remote location. Would definitely recommend for a peaceful getaway.",
+      },
+    ],
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar isLoggedIn={true} />
+      <Navbar isLoggedIn />
 
       <main className="flex-grow py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -310,7 +306,7 @@ const ListingDetail = () => {
                   </div>
 
                   <div className="space-y-6">
-                    {listing.reviews.map(review => (
+                    {listing.reviews.map((review) => (
                       <div key={review.id} className="border-b pb-6">
                         <div className="flex items-center mb-3">
                           <Avatar className="h-10 w-10 mr-3">
@@ -492,7 +488,7 @@ const ListingDetail = () => {
 
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default ListingDetail
+export default ListingDetail;
