@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { listings } from "@/data/listings";
 import {
   MapPin,
   Star,
@@ -31,74 +32,7 @@ const ListingDetail = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [isHeartActive, setIsHeartActive] = useState(false);
 
-  const listing = {
-    id: id || "1",
-    title: "Rustic Pine Retreat",
-    description:
-      "Escape to this charming cabin nestled among towering pine trees. This beautiful retreat offers a perfect blend of rustic charm and modern comforts. Enjoy a morning coffee on the spacious deck overlooking the forest, spend your days exploring nearby hiking trails, and end your evenings stargazing by the outdoor fire pit.",
-    location: "Woodland Heights, California",
-    price: 189,
-    rating: 4.9,
-    reviewCount: 128,
-    capacity: 4,
-    bedrooms: 2,
-    bathrooms: 1,
-    host: {
-      name: "John Smith",
-      joined: "2019",
-      avatar: "https://i.pravatar.cc/150?img=13",
-      responseRate: 99,
-    },
-    amenities: [
-      { name: "Wifi", icon: Wifi },
-      { name: "Fireplace", icon: FlameKindling },
-      { name: "Heating", icon: Snowflake },
-      { name: "Coffee Maker", icon: Coffee },
-      { name: "Pet Friendly", icon: Dog },
-      { name: "Hot Tub", icon: Bath },
-      { name: "Parking", icon: Car },
-      { name: "Kitchen", icon: Utensils },
-      { name: "TV", icon: Tv },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1615571022219-eb45cf7faa9d?auto=format&fit=crop&w=1470&q=80",
-      "https://images.unsplash.com/photo-1472831818955-3b659a9c47e7?auto=format&fit=crop&w=1032&q=80",
-      "https://images.unsplash.com/photo-1586744627062-45ddb3a6b8be?auto=format&fit=crop&w=1160&q=80",
-      "https://images.unsplash.com/photo-1606823616058-541d53078058?auto=format&fit=crop&w=1470&q=80",
-    ],
-    reviews: [
-      {
-        id: "1",
-        user: {
-          name: "Sarah Thompson",
-          avatar: "https://i.pravatar.cc/150?img=1",
-        },
-        date: "August 2023",
-        rating: 5,
-        text: "This cabin was absolutely perfect! The location is stunning, with beautiful views of the forest. Inside was clean, cozy and had everything we needed. The fireplace was a wonderful touch for cool evenings. We'll definitely be back!",
-      },
-      {
-        id: "2",
-        user: {
-          name: "Michael Chen",
-          avatar: "https://i.pravatar.cc/150?img=8",
-        },
-        date: "July 2023",
-        rating: 5,
-        text: "We had a fantastic weekend at this cabin. The hot tub under the stars was magical, and the kitchen was well-equipped for cooking. The host was responsive and helpful with local recommendations. Already planning our next visit!",
-      },
-      {
-        id: "3",
-        user: {
-          name: "Emily Johnson",
-          avatar: "https://i.pravatar.cc/150?img=5",
-        },
-        date: "June 2023",
-        rating: 4,
-        text: "Lovely cabin in a beautiful setting. Very comfortable and clean. The only reason for 4 stars instead of 5 is that the wifi was a bit spotty, but that's to be expected in a remote location. Would definitely recommend for a peaceful getaway.",
-      },
-    ],
-  };
+  const listing = listings.find((l) => l.id === id) || listings[0];
 
   return (
     <div className="min-h-screen flex flex-col">

@@ -102,4 +102,4 @@ const DateRangePicker = ({
   );
 };
 
-export default DateRangePicker;
+export default DateRangePicker

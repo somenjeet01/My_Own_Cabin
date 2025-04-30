@@ -11,7 +11,7 @@ export default function FeaturedSection() {
     {
       id: "1",
       title: "Rustic Pine Retreat",
-      location: "Woodland Heights, CA",
+      location: "Manali, Himachal Pradesh",
       price: 419,
       image: "https://images.unsplash.com/photo-1718132043666-aeda4b92341e?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       rating: 4.9,
@@ -23,7 +23,7 @@ export default function FeaturedSection() {
     {
       id: "2",
       title: "Lakeside Cabin Escape",
-      location: "Crystal Lake, OR",
+      location: "Nainital, Uttarakhand",
       price: 249,
       image: "https://images.unsplash.com/photo-1693639283335-47e9a100f5b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       rating: 4.8,
@@ -35,7 +35,7 @@ export default function FeaturedSection() {
     {
       id: "3",
       title: "Mountaintop Hideaway",
-      location: "Pine Ridge, CO",
+      location: "Munnar, Kerala",
       price: 599,
       image: "https://images.unsplash.com/photo-1454356953725-635ce829de44?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       rating: 4.7,

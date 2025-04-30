@@ -8,7 +8,7 @@ export const useListings = () => {
   const categoryFilter = searchParams.get("category") || "";
 
   const initialPriceMin = parseInt(searchParams.get("minPrice") || "50");
-  const initialPriceMax = parseInt(searchParams.get("maxPrice") || "350");
+  const initialPriceMax = parseInt(searchParams.get("maxPrice") || "900");
   const initialLocation = searchParams.get("location") || "";
   const initialAmenities = searchParams.get("amenities")?.split(",") || [];
   const initialDates = {
@@ -44,9 +44,9 @@ export const useListings = () => {
     {
       id: "1",
       title: "Rustic Pine Retreat",
-      location: "Woodland Heights, CA",
-      price: 189,
-      image: "https://images.unsplash.com/photo-1718132043666-aeda4b92341e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8UnVzdGljJTIwUGluZSUyMFJldHJlYXR8ZW58MHx8MHx8fDA%3D",
+      location: "Manali, Himachal Pradesh",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1718132043666-aeda4b92341e?w=600&auto=format&fit=crop&q=60",
       rating: 4.9,
       reviewCount: 128,
       capacity: 4,
@@ -56,9 +56,9 @@ export const useListings = () => {
     {
       id: "2",
       title: "Lakeside Cabin Escape",
-      location: "Crystal Lake, OR",
-      price: 249,
-      image: "https://plus.unsplash.com/premium_photo-1745138601115-bee6dab1638f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8TGFrZXNpZGUlMjBDYWJpbiUyMEVzY2FwZXxlbnwwfHwwfHx8MA%3D%3D",
+      location: "Nainital, Uttarakhand",
+      price: 499,
+      image: "https://plus.unsplash.com/premium_photo-1745138601115-bee6dab1638f?w=600&auto=format&fit=crop&q=60",
       rating: 4.8,
       reviewCount: 95,
       capacity: 6,
@@ -68,9 +68,9 @@ export const useListings = () => {
     {
       id: "3",
       title: "Mountaintop Hideaway",
-      location: "Pine Ridge, CO",
-      price: 219,
-      image: "https://images.unsplash.com/photo-1560441357-c2ffe0d5ffc7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8TW91bnRhaW50b3AlMjBIaWRlYXdheXxlbnwwfHwwfHx8MA%3D%3D",
+      location: "Munnar, Kerala",
+      price: 699,
+      image: "https://images.unsplash.com/photo-1560441357-c2ffe0d5ffc7?w=600&auto=format&fit=crop&q=60",
       rating: 4.7,
       reviewCount: 87,
       capacity: 5,
@@ -80,9 +80,9 @@ export const useListings = () => {
     {
       id: "4",
       title: "Cozy Forest Cabin",
-      location: "Redwood Forest, CA",
-      price: 159,
-      image: "https://images.unsplash.com/photo-1699209148943-acacf2821f33?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Q296eSUyMEZvcmVzdCUyMENhYmlufGVufDB8fDB8fHww",
+      location: "Coorg, Karnataka",
+      price: 213,
+      image: "https://images.unsplash.com/photo-1699209148943-acacf2821f33?w=600&auto=format&fit=crop&q=60",
       rating: 4.6,
       reviewCount: 62,
       capacity: 3,
@@ -92,9 +92,9 @@ export const useListings = () => {
     {
       id: "5",
       title: "Riverside Log Cabin",
-      location: "Blue River, WA",
-      price: 209,
-      image: "https://images.unsplash.com/photo-1653051993873-071d589ba16e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fFJpdmVyc2lkZSUyMExvZyUyMENhYmlufGVufDB8fDB8fHww",
+      location: "Rishikesh, Uttarakhand",
+      price: 513,
+      image: "https://images.unsplash.com/photo-1653051993873-071d589ba16e?w=600&auto=format&fit=crop&q=60",
       rating: 4.8,
       reviewCount: 104,
       capacity: 6,
@@ -104,8 +104,8 @@ export const useListings = () => {
     {
       id: "6",
       title: "Alpine Treehouse",
-      location: "Mountain Pass, MT",
-      price: 279,
+      location: "Darjeeling, West Bengal",
+      price: 799,
       image: "https://images.unsplash.com/photo-1636483725288-61a96dc65acf?auto=format&fit=crop&w=1470&q=80",
       rating: 4.9,
       reviewCount: 75,
@@ -116,8 +116,8 @@ export const useListings = () => {
     {
       id: "7",
       title: "Creekside Cottage",
-      location: "Silver Creek, ID",
-      price: 199,
+      location: "Shillong, Meghalaya",
+      price: 566,
       image: "https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&w=1470&q=80",
       rating: 4.7,
       reviewCount: 92,
@@ -128,8 +128,8 @@ export const useListings = () => {
     {
       id: "8",
       title: "Luxury Mountain View",
-      location: "Aspen, CO",
-      price: 349,
+      location: "Gulmarg, Jammu & Kashmir",
+      price: 899,
       image: "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?auto=format&fit=crop&w=1470&q=80",
       rating: 5.0,
       reviewCount: 47,

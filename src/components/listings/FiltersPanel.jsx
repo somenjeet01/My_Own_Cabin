@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
+//import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { 
   Filter, 
@@ -21,6 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+
 
 // Predefined list of amenities with their corresponding icons and identifiers
 export const amenitiesData = [
@@ -66,8 +67,10 @@ const FiltersPanel = ({
     const IconComponent = icons[iconName];
     return IconComponent ? <IconComponent size={14} className="mr-1" /> : null;
   };
+  
 
   return (
+    
     // Responsive container for filters panel with mobile and desktop layouts
     <div className={`lg:w-1/4 ${isFiltersOpen ? 'fixed inset-0 z-50 bg-white overflow-y-auto p-4 lg:static lg:block lg:p-0 lg:bg-transparent' : 'hidden lg:block'}`}>
       <Card className="p-4 sticky top-4">
@@ -177,21 +180,21 @@ const FiltersPanel = ({
                 <SlidersHorizontal size={16} className="mr-2" /> Price Range
               </h4>
               <span className="text-sm text-cabin-600">
-                ${priceRange[0]} - ${priceRange[1]}
+                ₹{priceRange[0]} - ₹{priceRange[1]}
               </span>
             </div>
             <Slider
-              defaultValue={[50, 350]}
-              max={500}
+              defaultValue={[50,800]}
+              max={1000}
               min={0}
               step={10}
               value={priceRange}
               onValueChange={(value) => setPriceRange(value)}
               className="my-6"
             />
-            <div className="flex justify-between text-xs text-cabin-500">
-              <span>$0</span>
-              <span>$500+</span>
+            <div className="flex justify-between text-xs text-cabin-600">
+              <span>₹0</span>
+              <span>₹1000+</span>
             </div>
           </div>
           
