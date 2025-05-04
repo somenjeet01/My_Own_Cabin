@@ -45,12 +45,14 @@ const Listings = () => {
   const { toast } = useToast();
   
   // Show a toast when component mounts to help users understand how to use the page
-  // useEffect(() => {
-  //   toast({
-  //     title: "Welcome to Cabin Listings",
-  //     description: "Use filters to find your perfect cabin getaway!",
-  //   });
-  // }, []);
+  useEffect(() => {
+    toast({
+      title: "Welcome to Cabin Listings",
+      description: "Use filters to find your perfect cabin getaway!",
+      type: "success",
+      duration: 2000,
+    });
+  }, []);
   
   return (
     <PageTransition>

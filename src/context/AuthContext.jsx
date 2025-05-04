@@ -1,52 +1,61 @@
+// src/context/AuthContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
+import authService from "@/appwrite/auth";
 
-const AuthContext = createContext({
-  isLoggedIn: false,
-  user: null,
-  login: () => {},
-  logout: () => {},
-});
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Auto-login check on mount
   useEffect(() => {
-    const loggedInStatus = sessionStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedInStatus);
-
-    if (loggedInStatus) {
-      const userData = sessionStorage.getItem("userData");
-      if (userData) {
-        try {
-          setUser(JSON.parse(userData));
-        } catch (error) {
-          console.error("Failed to parse user data:", error);
-          logout();
+    const fetchUser = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+          setIsLoggedIn(true);
+        } else {
+          setUser(null);
+          setIsLoggedIn(false);
         }
+      } catch (error) {
+        console.error("AuthContext: Error fetching user:", error);
+        setUser(null);
+        setIsLoggedIn(false);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+
+    fetchUser();
   }, []);
 
-  const login = (userData) => {
-    sessionStorage.setItem("isLoggedIn", "true");
-    sessionStorage.setItem("userData", JSON.stringify(userData));
+  // Login method
+  const login = async ({ email, password }) => {
+    await authService.login({ email, password });
+    const currentUser = await authService.getCurrentUser();
+    setUser(currentUser);
     setIsLoggedIn(true);
-    setUser(userData);
   };
 
-  const logout = () => {
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("userData");
-    setIsLoggedIn(false);
+  // Logout method
+  const logout = async () => {
+    await authService.logout();
     setUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem("user");
+    sessionStorage.clear();
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoggedIn, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
+// Hook to use context
 export const useAuth = () => useContext(AuthContext);

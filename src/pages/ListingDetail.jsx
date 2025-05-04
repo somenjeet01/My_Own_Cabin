@@ -15,15 +15,6 @@ import {
   Calendar,
   Users,
   ArrowLeft,
-  Wifi,
-  FlameKindling,
-  Snowflake,
-  Coffee,
-  Dog,
-  Bath,
-  Car,
-  Utensils,
-  Tv,
   Heart,
 } from "lucide-react";
 
@@ -349,7 +340,7 @@ const ListingDetail = () => {
                 <div className="flex justify-between items-center mb-4">
                   <div>
                     <span className="text-2xl font-semibold">
-                      ${listing.price}
+                    ₹{listing.price}
                     </span>
                     <span className="text-cabin-500"> / night</span>
                   </div>
@@ -398,20 +389,20 @@ const ListingDetail = () => {
 
                 <div className="border-t mt-4 pt-4 space-y-2">
                   <div className="flex justify-between">
-                    <span>${listing.price} x 5 nights</span>
-                    <span>${listing.price * 5}</span>
+                    <span>₹{listing.price} x 5 nights</span>
+                    <span>₹{listing.price * 5}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Cleaning fee</span>
-                    <span>$85</span>
+                    <span>₹85</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Service fee</span>
-                    <span>$75</span>
+                    <span>₹75</span>
                   </div>
                   <div className="border-t pt-2 mt-2 flex justify-between font-semibold">
                     <span>Total before taxes</span>
-                    <span>${listing.price * 5 + 85 + 75}</span>
+                    <span>₹{listing.price * 5 + 85 + 75}</span>
                   </div>
                 </div>
               </div>

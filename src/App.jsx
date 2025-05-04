@@ -46,6 +46,14 @@ const PageTransition = () => {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/listings/new" 
+          element={
+            <ProtectedRoute>
+              <ListingDetail isNew={true} />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>

@@ -60,7 +60,7 @@ export default function TestimonialSection() {
       rating: 5,
     },
     {
-      name: "Aman Raj",
+      name: "Aman Raj kake",
       location: "Karnataka",
 
       occupation: "Software Engineer",
@@ -70,7 +70,7 @@ export default function TestimonialSection() {
       rating: 5,
     },
     {
-      name: "Sonale Kumar",
+      name: "Sonal Kumari",
       location: "Mumbai",
       occupation: "Travel Blogger",
       text: "I booked the Cozy Cabin for a weekend getaway with friends, and it was the best decision ever! The cabin was beautifully decorated, and we loved the outdoor fire pit. We made memories that will last a lifetime.",

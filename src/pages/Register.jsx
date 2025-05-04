@@ -75,7 +75,8 @@ const Register = () => {
 
         toast({
           title: "Registration successful",
-          description: `Welcome aboard, ${user.name || "User"}!`
+          description: `Welcome aboard, ${user.name || "User"}!`,
+          type: "success",
         });
 
         navigate("/listings");
@@ -86,7 +87,8 @@ const Register = () => {
       toast({
         title: "Registration failed",
         description: error?.message || "Something went wrong. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
+        type: "error",
       });
     } finally {
       setIsLoading(false);

@@ -1,17 +1,25 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { LogIn, Home, MapPin, PlusCircle, User } from "lucide-react";
-import { cn } from "@/lib/utils";
-import NavbarSearchInput from "./NavbarSearchInput";
+import React from "react"
+import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { LogIn, LogOut, Home, MapPin, PlusCircle, User } from "lucide-react"
+import { cn } from "@/lib/utils"
+import NavbarSearchInput from "./NavbarSearchInput"
+import { useAuth } from "@/context/AuthContext"
 
-const MobileNav = ({ isMenuOpen, isLoggedIn, onLogout, toggleMenu }) => {
-  const navigate = useNavigate();
-  
-  const handleNavigation = (path) => {
-    navigate(path);
-    toggleMenu();
-  };
+const MobileNav = ({ isMenuOpen, toggleMenu }) => {
+  const navigate = useNavigate()
+  const { isLoggedIn, logout } = useAuth()
+
+  const handleNavigation = path => {
+    navigate(path)
+    toggleMenu()
+  }
+
+  const handleLogout = () => {
+    logout()
+    toggleMenu()
+    navigate("/")
+  }
 
   return (
     <div
@@ -28,7 +36,7 @@ const MobileNav = ({ isMenuOpen, isLoggedIn, onLogout, toggleMenu }) => {
         >
           <Home className="mr-2 h-4 w-4" /> Home
         </Button>
-        
+
         <Button
           variant="ghost"
           onClick={() => handleNavigation("/listings")}
@@ -36,11 +44,11 @@ const MobileNav = ({ isMenuOpen, isLoggedIn, onLogout, toggleMenu }) => {
         >
           <MapPin className="mr-2 h-4 w-4" /> Cabins
         </Button>
-        
+
         <div className="p-2">
           <NavbarSearchInput isMobile={true} toggleMenu={toggleMenu} />
         </div>
-        
+
         {isLoggedIn ? (
           <>
             <Button
@@ -58,13 +66,10 @@ const MobileNav = ({ isMenuOpen, isLoggedIn, onLogout, toggleMenu }) => {
             </Button>
             <Button
               variant="outline"
-              onClick={() => {
-                onLogout();
-                toggleMenu();
-              }}
+              onClick={handleLogout}
               className="w-full justify-start text-rose-600 hover:text-rose-700"
             >
-              <LogIn className="mr-2 h-4 w-4" /> Logout
+              <LogOut className="mr-2 h-4 w-4" /> Logout
             </Button>
           </>
         ) : (
@@ -77,7 +82,7 @@ const MobileNav = ({ isMenuOpen, isLoggedIn, onLogout, toggleMenu }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MobileNav;
+export default MobileNav

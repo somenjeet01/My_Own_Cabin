@@ -179,6 +179,7 @@ export const useListings = () => {
     toast({
       title: "Filters Applied",
       description: `Found ${filteredCount} cabins matching your criteria`,
+      type: "success",
     });
 
     setCurrentPage(1);
@@ -196,6 +197,7 @@ export const useListings = () => {
     toast({
       title: "Filters Reset",
       description: "All filters have been cleared",
+      type: "success",
     });
   };
 
@@ -242,6 +244,7 @@ export const useListings = () => {
         toast({
           title: "Category Filter Applied",
           description: `Showing results for "${categoryFilter}" cabins`,
+          type: "success",
         });
       }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
+import { useAuth } from "@/context/AuthContext"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import PageTransition from "@/components/PageTransition"
@@ -15,22 +16,37 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("bookings")
   const { toast } = useToast()
   const navigate = useNavigate()
+  const { user, isLoggedIn, logout, updateUserProfile } = useAuth()
 
   const [bookings, setBookings] = useState([])
   const [savedCabins, setSavedCabins] = useState([])
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    dob: ""
+  })
 
   useEffect(() => {
     // Check if user is logged in
-    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true"
-
     if (!isLoggedIn) {
       toast({
         title: "Access denied",
         description: "Please log in to view your profile",
         variant: "destructive"
       })
-      navigate("/login")
+      navigate("/login", { state: { from: { pathname: "/profile" } } })
       return
+    }
+
+    // Set form data based on user info
+    if (user) {
+      setFormData({
+        fullName: user.username || "",
+        email: user.email || "",
+        phone: "+1 (555) 123-4567",
+        dob: "1990-01-01"
+      })
     }
 
     // Simulate data loading
@@ -112,14 +128,10 @@ const Profile = () => {
 
       setIsLoading(false)
     }, 1500)
-  }, [toast, navigate])
+  }, [toast, navigate, isLoggedIn, user])
 
   const handleLogout = () => {
-    sessionStorage.removeItem("isLoggedIn")
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out"
-    })
+    logout()
     navigate("/")
   }
 
@@ -143,10 +155,29 @@ const Profile = () => {
     })
   }
 
+  const handleProfileUpdate = e => {
+    e.preventDefault()
+
+    if (user) {
+      updateUserProfile({
+        username: formData.fullName,
+        email: formData.email
+      })
+    }
+  }
+
+  const handleInputChange = e => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
   return (
     <PageTransition>
       <div className="min-h-screen flex flex-col">
-        <Navbar isLoggedIn={true} />
+        <Navbar />
 
         <main className="flex-grow py-8 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,8 +189,12 @@ const Profile = () => {
                     <div className="w-24 h-24 bg-cabin-100 rounded-full flex items-center justify-center mb-4">
                       <User className="w-12 h-12 text-cabin-600" />
                     </div>
-                    <h2 className="text-xl font-semibold">Demo User</h2>
-                    <p className="text-cabin-600">demo@example.com</p>
+                    <h2 className="text-xl font-semibold">
+                      {user?.username || "Demo User"}
+                    </h2>
+                    <p className="text-cabin-600">
+                      {user?.email || "demo@example.com"}
+                    </p>
                     <p className="text-sm text-cabin-500 mt-1">
                       Member since April 2025
                     </p>
@@ -434,15 +469,20 @@ const Profile = () => {
                                 <h3 className="text-lg font-medium mb-4">
                                   Personal Information
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <form
+                                  onSubmit={handleProfileUpdate}
+                                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                                >
                                   <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
                                       Full Name
                                     </label>
                                     <input
                                       type="text"
+                                      name="fullName"
                                       className="w-full p-2 border rounded-md"
-                                      defaultValue="Demo User"
+                                      value={formData.fullName}
+                                      onChange={handleInputChange}
                                     />
                                   </div>
                                   <div>
@@ -451,8 +491,10 @@ const Profile = () => {
                                     </label>
                                     <input
                                       type="email"
+                                      name="email"
                                       className="w-full p-2 border rounded-md"
-                                      defaultValue="demo@example.com"
+                                      value={formData.email}
+                                      onChange={handleInputChange}
                                     />
                                   </div>
                                   <div>
@@ -461,8 +503,10 @@ const Profile = () => {
                                     </label>
                                     <input
                                       type="tel"
+                                      name="phone"
                                       className="w-full p-2 border rounded-md"
-                                      defaultValue="+1 (555) 123-4567"
+                                      value={formData.phone}
+                                      onChange={handleInputChange}
                                     />
                                   </div>
                                   <div>
@@ -471,12 +515,16 @@ const Profile = () => {
                                     </label>
                                     <input
                                       type="date"
+                                      name="dob"
                                       className="w-full p-2 border rounded-md"
-                                      defaultValue="1990-01-01"
+                                      value={formData.dob}
+                                      onChange={handleInputChange}
                                     />
                                   </div>
-                                </div>
-                                <Button className="mt-6">Save Changes</Button>
+                                  <div className="md:col-span-2">
+                                    <Button type="submit">Save Changes</Button>
+                                  </div>
+                                </form>
                               </div>
                             </TabsContent>
 
@@ -485,7 +533,7 @@ const Profile = () => {
                                 <h3 className="text-lg font-medium mb-4">
                                   Change Password
                                 </h3>
-                                <div className="space-y-4">
+                                <form className="space-y-4">
                                   <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
                                       Current Password
@@ -516,10 +564,8 @@ const Profile = () => {
                                       placeholder="••••••••"
                                     />
                                   </div>
-                                </div>
-                                <Button className="mt-6">
-                                  Update Password
-                                </Button>
+                                  <Button>Update Password</Button>
+                                </form>
                               </div>
                             </TabsContent>
 
@@ -574,10 +620,8 @@ const Profile = () => {
                                       Booking reminders
                                     </label>
                                   </div>
+                                  <Button>Save Preferences</Button>
                                 </div>
-                                <Button className="mt-6">
-                                  Save Preferences
-                                </Button>
                               </div>
                             </TabsContent>
                           </Tabs>

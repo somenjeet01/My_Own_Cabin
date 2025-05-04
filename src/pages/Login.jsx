@@ -1,76 +1,71 @@
-import React, { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useToast } from "@/hooks/use-toast"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import PageTransition from "@/components/PageTransition"
-import { Button } from "@/components/ui/button"
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Spinner } from "@/components/ui/spinner"
-import { LogIn, Mail, Lock, ArrowRight } from "lucide-react"
-
-// Import your authService
-import authService from "@/appwrite/auth"
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { LogIn, Mail, Lock, ArrowRight } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" })
-})
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { login } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
-      password: ""
-    }
-  })
+      password: "",
+    },
+  });
 
   const onSubmit = async (data) => {
-    setIsLoading(true)
-    setError("")
+    setIsLoading(true);
+    setError("");
+  
     try {
-      const session = await authService.login(data)
-      if (session) {
-        const userData = await authService.getCurrentUser()
-        if (userData) {
-          // Save userData to localStorage
-          localStorage.setItem("user", JSON.stringify(userData))
-          toast({
-            title: "Login successful",
-            description: `Welcome back, ${userData.name || "User"}!`
-          })
-          navigate("/listings")
-        }
-      }
+      await login(data);
+      toast({
+        title: "Login successful",
+        description: `Welcome back!`,
+        type: "success",
+      });
+      navigate("/listings");
     } catch (err) {
-      console.error(err)
-      setError(err.message || "Something went wrong")
+      console.error(err);
+      setError(err.message || "Something went wrong");
       toast({
         title: "Login failed",
         description: err.message || "Invalid email or password",
-        variant: "destructive"
-      })
+        variant: "destructive",
+        type: "error",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <PageTransition>
@@ -87,12 +82,9 @@ const Login = () => {
             </div>
 
             <div className="bg-white p-8 rounded-lg shadow-md">
-              {error && (
-                <p className="text-red-600 text-center mb-4">{error}</p>
-              )}
+              {error && <p className="text-red-600 text-center mb-4">{error}</p>}
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  {/* Email */}
                   <FormField
                     control={form.control}
                     name="email"
@@ -115,7 +107,6 @@ const Login = () => {
                     )}
                   />
 
-                  {/* Password */}
                   <FormField
                     control={form.control}
                     name="password"
@@ -138,7 +129,6 @@ const Login = () => {
                     )}
                   />
 
-                  {/* Remember me + Forgot Password */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input
@@ -158,8 +148,11 @@ const Login = () => {
                     </div>
                   </div>
 
-                  {/* Submit Button */}
-                  <Button type="submit" disabled={isLoading} className="w-full bg-cabin-600 hover:bg-cabin-700">
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-cabin-600 hover:bg-cabin-700"
+                  >
                     {isLoading ? (
                       <>
                         <Spinner size="sm" className="mr-2" />
@@ -175,7 +168,6 @@ const Login = () => {
                 </form>
               </Form>
 
-              {/* Sign Up link */}
               <div className="mt-6 text-center">
                 <p className="text-sm text-gray-600">
                   Don't have an account?{" "}
@@ -194,7 +186,7 @@ const Login = () => {
         <Footer />
       </div>
     </PageTransition>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
