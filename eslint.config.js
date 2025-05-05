@@ -23,6 +23,8 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
+      'react/jsx-uses-vars': 'error',
+      // Your existing rules...
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'react-refresh/only-export-components': [
         'warn',

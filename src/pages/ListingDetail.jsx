@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { listings } from "@/data/listings";
+import PropertyMap from "@/components/PropertyMap";
 import {
   MapPin,
   Star,
@@ -302,23 +303,17 @@ const ListingDetail = () => {
                 </TabsContent>
 
                 <TabsContent value="location">
-                  <div className="rounded-lg overflow-hidden h-80 bg-gray-100 flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-cabin-600 mb-2">
-                        Map view would appear here
-                      </p>
-                      <p className="text-sm text-cabin-500">
-                        Located in {listing.location}
-                      </p>
-                    </div>
-                  </div>
+                  <PropertyMap
+                    address={listing.location} // e.g., "Woodland Heights, CA"
+                    title={listing.title} // e.g., "Cozy Woodland Cabin"
+                    className="h-80"
+                  />
+
                   <div className="mt-4">
                     <h4 className="font-medium mb-2">About the area</h4>
                     <p className="text-cabin-700 mb-4">
                       This cabin is located in the beautiful Woodland Heights
-                      area, surrounded by pine trees and nature trails. It's an
-                      ideal location for hiking, fishing, and enjoying the
-                      outdoors.
+                      area...
                     </p>
                     <div className="mt-4">
                       <h5 className="font-medium mb-2">Nearby attractions:</h5>
@@ -331,6 +326,10 @@ const ListingDetail = () => {
                     </div>
                   </div>
                 </TabsContent>
+
+
+
+                
               </Tabs>
             </div>
 
@@ -340,7 +339,7 @@ const ListingDetail = () => {
                 <div className="flex justify-between items-center mb-4">
                   <div>
                     <span className="text-2xl font-semibold">
-                    ₹{listing.price}
+                      ₹{listing.price}
                     </span>
                     <span className="text-cabin-500"> / night</span>
                   </div>
