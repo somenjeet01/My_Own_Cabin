@@ -13,11 +13,13 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import AuthCallback from "./context/AuthCallback";
+
 
 const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn,loading  } = useAuth();
   const location = useLocation();
 
   if (!isLoggedIn) {
@@ -38,6 +40,7 @@ const PageTransition = () => {
         <Route path="/listings/:id" element={<ListingDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route 
           path="/profile" 
           element={
