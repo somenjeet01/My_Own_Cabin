@@ -69,6 +69,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
+  //Login with GitHub
+  const loginWithGitHub = () => {
+    try {
+      // This will redirect to GitHub and then return to your callback URL
+      authService.createGitHubOAuth();
+    } catch (error) {
+      console.error("GitHub login error:", error);
+      throw error;
+    }
+  };
+
+
   // Logout method
   const logout = async () => {
     try {
@@ -120,6 +133,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         loading,
         loginWithGoogle,
+        loginWithGitHub,
         refreshUser,
       }}
     >

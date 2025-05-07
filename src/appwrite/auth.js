@@ -60,6 +60,28 @@ createGoogleOAuth() {
     }
   }
 
+    // Create GitHub OAuth login method
+createGitHubOAuth() {
+  try {
+    // Generate the OAuth URL for Github
+    const currentHost = window.location.origin;
+
+      return this.account.createOAuth2Session(
+      OAuthProvider.Github, // Provider ID for Github
+      `${currentHost}/auth/callback`, // Success redirect URL
+      `${currentHost}/login`, // Failure redirect URL
+      ["profile", "email"] // Requested OAuth scopes
+    );
+
+  } catch (error) {
+    console.log("Appwrite service :: createGitHubOAuth :: error", error);
+    throw error;
+  }
+}
+
+
+
+
   async getCurrentUser() {
     try {
       const user = await this.account.get(); // Fetch the currently logged-in user

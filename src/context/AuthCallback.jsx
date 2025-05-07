@@ -2,14 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import authService from '../appwrite/auth';
-import { toast } from 'sonner';
+//import authService from '../appwrite/auth';
+import { useToast } from "@/hooks/use-toast";
+import { Drum } from 'lucide-react';
 
 const OAuthCallback = () => {
   const [status, setStatus] = useState('Processing authentication...');
   const navigate = useNavigate();
-  const location = useLocation();
+ // const location = useLocation();
   const { refreshUser } = useAuth();
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -26,10 +28,16 @@ const OAuthCallback = () => {
             title: "Login successful",
             description: `Welcome back, ${user.name || 'User'}!`,
             type: "success",
+            duration: 2000,
           });
         } else {
           setTimeout(() => navigate('/login'), 2000);
-          toast.error('Login failed. Please try again.');
+          toast({
+            title: "Login failed",
+            description: "Unable to retrieve user data. Please try again.",
+            type: "error",
+            duration: 2000,
+          });
         }
       } catch (error) {
         console.error('OAuth callback error:', error);

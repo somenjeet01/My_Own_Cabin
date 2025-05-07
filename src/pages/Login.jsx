@@ -31,7 +31,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle,loginWithGitHub } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -51,6 +51,7 @@ const Login = () => {
         title: "Login successful",
         description: `Welcome back!`,
         type: "success",
+        duration: 2000,
       });
       navigate("/listings");
     } catch (err) {
@@ -59,8 +60,8 @@ const Login = () => {
       toast({
         title: "Login failed",
         description: err.message || "Invalid email or password",
-        variant: "destructive",
         type: "error",
+        duration: 2000,
       });
     } finally {
       setIsLoading(false);
@@ -74,6 +75,17 @@ const Login = () => {
     } catch (err) {
       setError("Google login failed");
       console.error("Google login error:", err);
+    }
+  };
+
+
+  const handleGitHubLogin = () => {
+    try {
+      loginWithGitHub();
+      // Note: No redirection needed here as the OAuth flow will handle it
+    } catch (err) {
+      setError("GitHub login failed");
+      console.error("Github login error:", err);
     }
   };
 
@@ -231,14 +243,15 @@ const Login = () => {
                     </svg>
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full">
-                    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
-                      <path
-                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                        fill="currentColor"
-                      />
+                  <Button variant="outline" className="w-full" onClick={handleGitHubLogin}>
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                     </svg>
-                    Facebook
+                    GitHub
                   </Button>
                 </div>
               </div>
