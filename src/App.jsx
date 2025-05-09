@@ -14,7 +14,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import AuthCallback from "./context/AuthCallback";
-
+import ChatWidget from "./components/Chatwidget";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +72,7 @@ const App = () => (
         <BrowserRouter>
           <ScrollToTop />
           <PageTransition />
+          <ChatWidget />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

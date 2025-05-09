@@ -1,7 +1,7 @@
 // src/context/AuthContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import authService from "@/appwrite/auth";
-
+import { useToast } from "@/hooks/use-toast";
 
 const AuthContext = createContext();
 
@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast(); // Initialize toast
 
   // Auto-login check on mount
   useEffect(() => {
@@ -16,13 +17,18 @@ export const AuthProvider = ({ children }) => {
       try {
         // Try to get the current session first
         try {
-          await authService.account.getSession('current');
-          
+          await authService.account.getSession("current");
+
           // If we can get a session, try to get the user
           const currentUser = await authService.getCurrentUser();
           if (currentUser) {
             setUser(currentUser);
             setIsLoggedIn(true);
+            toast({
+              title: "Welcome back!",
+              description: `Hello, ${currentUser.name}`,
+              duration: 3000,
+            });
           } else {
             setUser(null);
             setIsLoggedIn(false);
@@ -51,6 +57,11 @@ export const AuthProvider = ({ children }) => {
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
       setIsLoggedIn(true);
+      toast({
+        title: "Login successful",
+        description: `Welcome back, ${currentUser.name}`,
+        duration: 3000,
+      });
       return currentUser;
     } catch (error) {
       console.error("Login error:", error);
@@ -63,24 +74,32 @@ export const AuthProvider = ({ children }) => {
     try {
       // This will redirect to Google and then return to your callback URL
       authService.createGoogleOAuth();
+      toast({
+        title: "Redirecting to Google",
+        description: "Please complete the login process.",
+        duration: 3000,
+      });
     } catch (error) {
       console.error("Google login error:", error);
       throw error;
     }
   };
 
-
   //Login with GitHub
   const loginWithGitHub = () => {
     try {
       // This will redirect to GitHub and then return to your callback URL
       authService.createGitHubOAuth();
+      toast({
+        title: "Redirecting to GitHub",
+        description: "Please complete the login process.",
+        duration: 3000,
+      });
     } catch (error) {
       console.error("GitHub login error:", error);
       throw error;
     }
   };
-
 
   // Logout method
   const logout = async () => {
@@ -90,6 +109,11 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(false);
       localStorage.removeItem("user");
       sessionStorage.clear();
+      toast({
+        title: "Logout successful",
+        description: "You have been logged out.",
+        duration: 3000,
+      });
     } catch (error) {
       console.error("Logout error:", error);
       throw error;
@@ -100,8 +124,8 @@ export const AuthProvider = ({ children }) => {
     try {
       // First try to verify we have a session
       try {
-        await authService.account.getSession('current');
-        
+        await authService.account.getSession("current");
+
         // If we get here, we have a valid session
         const currentUser = await authService.getCurrentUser();
         if (currentUser) {
