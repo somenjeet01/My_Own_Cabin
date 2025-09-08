@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import authService from "@/appwrite/auth";
 import { useToast } from "@/hooks/use-toast";
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }) => {
       toast({
         title: "Login successful",
         description: `Welcome back, ${currentUser.name}`,
+        type: "success",     
         duration: 3000,
       });
       return currentUser;
@@ -77,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       toast({
         title: "Redirecting to Google",
         description: "Please complete the login process.",
+          type:"success",
         duration: 3000,
       });
     } catch (error) {
@@ -93,6 +96,7 @@ export const AuthProvider = ({ children }) => {
       toast({
         title: "Redirecting to GitHub",
         description: "Please complete the login process.",
+        tyoe:"success",
         duration: 3000,
       });
     } catch (error) {
@@ -112,6 +116,7 @@ export const AuthProvider = ({ children }) => {
       toast({
         title: "Logout successful",
         description: "You have been logged out.",
+        type  : "success",
         duration: 3000,
       });
     } catch (error) {

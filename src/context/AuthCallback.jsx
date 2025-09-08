@@ -19,6 +19,7 @@ const OAuthCallback = () => {
         // The OAuth session is already created in Appwrite automatically
         // No need to manually exchange code as Appwrite handles this internally
         
+        
         // Just refresh the user data to update the auth context
         const user = await refreshUser();
         
@@ -36,7 +37,7 @@ const OAuthCallback = () => {
             title: "Login failed",
             description: "Unable to retrieve user data. Please try again.",
             type: "error",
-            duration: 2000,
+            duration: 3000,
           });
         }
       } catch (error) {

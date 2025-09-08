@@ -48,7 +48,7 @@ export const mockBookings = [
       id: "2",
       title: "Lakeside Cabin Escape",
       location: "Crystal Lake, OR",
-      price: 249,
+      price: 1002,
       image:
         "https://images.unsplash.com/photo-1626268220643-21ae3508b3b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
     },
@@ -56,7 +56,7 @@ export const mockBookings = [
       id: "6",
       title: "Alpine Treehouse",
       location: "Mountain Pass, MT",
-      price: 279,
+      price: 1200,
       image:
         "https://images.unsplash.com/photo-1636483725288-61a96dc65acf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
     },
@@ -64,7 +64,7 @@ export const mockBookings = [
       id: "8",
       title: "Luxury Mountain View",
       location: "Aspen, CO",
-      price: 349,
+      price: 1500,
       image:
         "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
     }
