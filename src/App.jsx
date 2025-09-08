@@ -2,7 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -14,12 +20,12 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import AuthCallback from "./context/AuthCallback";
-import ChatWidget from "./components/Chatwidget";
+import ChatWidget from "./components/ChatWidget";
 
 const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn,loading  } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
   const location = useLocation();
 
   if (!isLoggedIn) {
@@ -41,21 +47,21 @@ const PageTransition = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route 
-          path="/profile" 
+        <Route
+          path="/profile"
           element={
             <ProtectedRoute>
               <Profile />
             </ProtectedRoute>
-          } 
+          }
         />
-        <Route 
-          path="/listings/new" 
+        <Route
+          path="/listings/new"
           element={
             <ProtectedRoute>
               <ListingDetail isNew={true} />
             </ProtectedRoute>
-          } 
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
