@@ -1,15 +1,14 @@
 // src/pages/OAuthCallback.jsx
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-//import authService from '../appwrite/auth';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import authService from "../appwrite/auth"; // your Appwrite service
 import { useToast } from "@/hooks/use-toast";
-import { Drum } from 'lucide-react';
+import { Drum } from "lucide-react";
 
 const OAuthCallback = () => {
-  const [status, setStatus] = useState('Processing authentication...');
+  const [status, setStatus] = useState("Processing authentication...");
   const navigate = useNavigate();
- // const location = useLocation();
   const { refreshUser } = useAuth();
   const { toast } = useToast();
 
@@ -18,21 +17,20 @@ const OAuthCallback = () => {
       try {
         // The OAuth session is already created in Appwrite automatically
         // No need to manually exchange code as Appwrite handles this internally
-        
-        
+
         // Just refresh the user data to update the auth context
         const user = await refreshUser();
-        
+
         if (user) {
-          setTimeout(() => navigate('/'), 1000);
+          setTimeout(() => navigate("/"), 1000);
           toast({
             title: "Login successful",
-            description: `Welcome back, ${user.name || 'User'}!`,
+            description: `Welcome back, ${user.name || "User"}!`,
             type: "success",
             duration: 2000,
           });
         } else {
-          setTimeout(() => navigate('/login'), 2000);
+          setTimeout(() => navigate("/login"), 2000);
           toast({
             title: "Login failed",
             description: "Unable to retrieve user data. Please try again.",
@@ -41,9 +39,9 @@ const OAuthCallback = () => {
           });
         }
       } catch (error) {
-        console.error('OAuth callback error:', error);
-        setStatus('Authentication error. Please try again.');
-        setTimeout(() => navigate('/login'), 2000);
+        console.error("OAuth callback error:", error);
+        setStatus("Authentication error. Please try again.");
+        setTimeout(() => navigate("/login"), 2000);
       }
     };
 
